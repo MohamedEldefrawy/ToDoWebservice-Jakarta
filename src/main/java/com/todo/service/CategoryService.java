@@ -1,8 +1,8 @@
 package com.todo.service;
 
-import com.swe.todoconsoleapp.data.DbContext;
-import com.swe.todoconsoleapp.entity.Category;
-import com.swe.todoconsoleapp.repository.CategoryRepository;
+import com.todo.data.DbContext;
+import com.todo.entity.Category;
+import com.todo.repositroy.CategoryRepository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

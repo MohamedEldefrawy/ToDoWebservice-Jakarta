@@ -1,8 +1,8 @@
 package com.todo.service;
 
-import com.swe.todoconsoleapp.data.DbContext;
-import com.swe.todoconsoleapp.entity.Priority;
-import com.swe.todoconsoleapp.repository.PriorityRepository;
+import com.todo.data.DbContext;
+import com.todo.entity.Priority;
+import com.todo.repositroy.PriorityRepository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

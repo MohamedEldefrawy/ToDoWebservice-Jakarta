@@ -1,11 +1,11 @@
 package com.todo.service;
 
-import com.swe.todoconsoleapp.data.DbContext;
-import com.swe.todoconsoleapp.entity.Category;
-import com.swe.todoconsoleapp.entity.Priority;
-import com.swe.todoconsoleapp.entity.ToDo;
-import com.swe.todoconsoleapp.repository.ToDoRepository;
-import com.swe.todoconsoleapp.utils.Helpers;
+import com.todo.data.DbContext;
+import com.todo.entity.Category;
+import com.todo.entity.Priority;
+import com.todo.entity.ToDo;
+import com.todo.repositroy.ToDoRepository;
+import com.todo.utils.Helpers;
 
 import java.io.*;
 import java.sql.*;

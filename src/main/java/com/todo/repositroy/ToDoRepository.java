@@ -1,6 +1,6 @@
 package com.todo.repositroy;
 
-import com.swe.todoconsoleapp.entity.ToDo;
+import com.todo.entity.ToDo;
 
 import java.util.List;
 
