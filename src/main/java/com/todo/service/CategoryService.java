@@ -4,10 +4,7 @@ import com.todo.data.DbContext;
 import com.todo.entity.Category;
 import com.todo.repositroy.CategoryRepository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +12,18 @@ import java.util.Optional;
 public class CategoryService implements CategoryRepository {
     @Override
     public boolean create(Category entity) {
-        return false;
+        String query = "insert into categories(name) values (?)";
+        int rowsAffected = 0;
+        try (Connection connection = DbContext.openDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.addBatch();
+            rowsAffected = preparedStatement.executeBatch().length;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return rowsAffected > 0;
     }
 
     @Override
@@ -25,7 +33,19 @@ public class CategoryService implements CategoryRepository {
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        String query = "delete from categories where id = ?";
+        int rowsAffected = 0;
+        try (Connection connection = DbContext.openDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.addBatch();
+            rowsAffected = preparedStatement.executeBatch().length;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return rowsAffected > 0;
     }
 
     @Override
@@ -43,6 +63,7 @@ public class CategoryService implements CategoryRepository {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return new ArrayList<>();
         }
 
         return categories;
@@ -61,6 +82,7 @@ public class CategoryService implements CategoryRepository {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
         return selectedCategory;
     }
