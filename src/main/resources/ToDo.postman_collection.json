@@ -7,13 +7,201 @@
 	},
 	"item": [
 		{
-			"name": "ToDo",
+			"name": "Items",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "Create Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"testing\",\n    \"description\":\"testing create todo item endpoint\",\n    \"startDate\":\"2022-11-15\",\n    \"endDate\":\"2022-11-16\",\n    \"priority\":{\n        \"id\":\"1\"\n    },\n    \"category\":{\n        \"id\":\"1\"\n    },\n    \"favourite\":false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"updaated testing\",\n    \"description\":\"update testing create todo item endpoint\",\n    \"startDate\":\"2022-11-17\",\n    \"endDate\":\"2022-11-18\",\n    \"priority\":{\n        \"id\":\"1\"\n    },\n    \"category\":{\n        \"id\":\"1\"\n    },\n    \"favourite\":false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Select all",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Select by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Select by titile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items/title/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items",
+								"title",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by title",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items/title/testing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items",
+								"title",
+								"testing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Select by date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ToDoWebService_war/items/date?mode=1&date=16/11/2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ToDoWebService_war",
+								"items",
+								"date"
+							],
+							"query": [
+								{
+									"key": "mode",
+									"value": "1"
+								},
+								{
+									"key": "date",
+									"value": "16/11/2022"
+								}
+							]
+						}
 					},
 					"response": []
 				}
