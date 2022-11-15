@@ -1,4 +1,6 @@
-package com.todo.entity.dto;
+package com.todo.entity.dto.response;
+
+import com.todo.entity.dto.response.FaildResponse;
 
 public class NotFoundResponse implements FaildResponse {
     private String message;

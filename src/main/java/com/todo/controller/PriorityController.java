@@ -1,10 +1,10 @@
 package com.todo.controller;
 
 import com.todo.entity.Priority;
-import com.todo.entity.dto.FaildResponse;
-import com.todo.entity.dto.FaildToDeleteResponse;
-import com.todo.entity.dto.FaildToUpdateResponse;
-import com.todo.entity.dto.NotFoundResponse;
+import com.todo.entity.dto.response.FaildResponse;
+import com.todo.entity.dto.response.FaildToDeleteResponse;
+import com.todo.entity.dto.response.FaildToUpdateResponse;
+import com.todo.entity.dto.response.NotFoundResponse;
 import com.todo.service.PriorityService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

@@ -1,10 +1,10 @@
 package com.todo.controller;
 
 import com.todo.entity.ToDo;
-import com.todo.entity.dto.FaildResponse;
-import com.todo.entity.dto.FaildToDeleteResponse;
-import com.todo.entity.dto.FaildToUpdateResponse;
-import com.todo.entity.dto.NotFoundResponse;
+import com.todo.entity.dto.response.FaildResponse;
+import com.todo.entity.dto.response.FaildToDeleteResponse;
+import com.todo.entity.dto.response.FaildToUpdateResponse;
+import com.todo.entity.dto.response.NotFoundResponse;
 import com.todo.service.ToDoService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -85,8 +85,22 @@ public class ToDoController {
         if (selectedItem == null) {
             FaildResponse faildResponse = new FaildToDeleteResponse();
             faildResponse.setMessage("Couldn't find todo item with title: " + title);
-            return Response.status(400).entity(faildResponse).build();
+            return Response.status(404).entity(faildResponse).build();
         }
         return Response.ok(selectedItem).build();
+    }
+
+    @GET
+    @Path("/date")
+    public Response findByDate(@QueryParam("mode") Integer mode, @QueryParam("date") String date) {
+        if (mode == null)
+            mode = 0;
+        List<ToDo> selectedItems = this.toDoService.findByDate(mode, date);
+        if (selectedItems.size() == 0) {
+            FaildResponse faildResponse = new FaildToDeleteResponse();
+            faildResponse.setMessage("Couldn't find todo item with date: " + date);
+            return Response.status(404).entity(faildResponse).build();
+        }
+        return Response.ok(selectedItems).build();
     }
 }

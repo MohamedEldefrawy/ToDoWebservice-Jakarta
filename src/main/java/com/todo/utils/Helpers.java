@@ -12,7 +12,8 @@ public class Helpers {
         try {
             return simpleDateFormat.parse(date);
         } catch (ParseException e) {
-            return null;
+            System.out.println(e.getMessage());
+            throw new NoDateAssignedException("No date has been selected");
         }
     }
 

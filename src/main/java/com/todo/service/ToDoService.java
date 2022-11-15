@@ -4,6 +4,7 @@ import com.todo.data.DbContext;
 import com.todo.entity.Category;
 import com.todo.entity.Priority;
 import com.todo.entity.ToDo;
+import com.todo.exception.NoDateAssignedException;
 import com.todo.repositroy.ToDoRepository;
 import com.todo.utils.Helpers;
 
@@ -53,8 +54,14 @@ public class ToDoService implements ToDoRepository {
     public List<ToDo> findByDate(int mode, String date) {
         List<ToDo> toDos = get();
         List<ToDo> result = new ArrayList<>();
+        Date selectedDate;
 
-        Date selectedDate = Helpers.covertStringToDate(date);
+        try {
+            selectedDate = Helpers.covertStringToDate(date);
+        } catch (NoDateAssignedException e) {
+            return this.get();
+        }
+
         if (mode == SEARCH_BY_START_DATE) {
             if (toDos != null && toDos.size() > 0) for (ToDo toDo : toDos) {
                 if (toDo.getStartDate() != null && toDo.getStartDate().equals(selectedDate)) result.add(toDo);

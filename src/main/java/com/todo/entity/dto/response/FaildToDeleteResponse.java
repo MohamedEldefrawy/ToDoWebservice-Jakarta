@@ -1,4 +1,4 @@
-package com.todo.entity.dto;
+package com.todo.entity.dto.response;
 
 public class FaildToDeleteResponse implements FaildResponse {
     String message;
