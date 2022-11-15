@@ -2,6 +2,7 @@ package com.todo.controller;
 
 import com.todo.entity.ToDo;
 import com.todo.entity.dto.FaildResponse;
+import com.todo.entity.dto.FaildToUpdateResponse;
 import com.todo.entity.dto.NotFoundResponse;
 import com.todo.service.ToDoService;
 import jakarta.ws.rs.*;
@@ -39,6 +40,29 @@ public class ToDoController {
         }
 
         return Response.ok(selectedItem).build();
+    }
+
+    @POST
+    public Response create(ToDo todo) {
+        boolean result = this.toDoService.create(todo);
+        if (!result) {
+            FaildResponse notFoundResponse = new NotFoundResponse();
+            notFoundResponse.setMessage("Couldn't create todo item");
+            return Response.status(400).entity(notFoundResponse).build();
+        }
+        return Response.status(201).entity(todo).build();
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response update(@PathParam("id") int todoId, ToDo updatedItem) {
+        boolean result = this.toDoService.update(todoId, updatedItem);
+        if (!result) {
+            FaildResponse faildResponse = new FaildToUpdateResponse();
+            faildResponse.setMessage("Couldn't update selected todo item with id: " + todoId);
+            return Response.status(400).entity(faildResponse).build();
+        }
+        return Response.noContent().build();
     }
 
 }
