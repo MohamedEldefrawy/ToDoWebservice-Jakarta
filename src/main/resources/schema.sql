@@ -33,6 +33,8 @@ create table if not exists items
 alter table items
 add isFavourite bit default 0;
 
+alter table items add constraint unique (title);
+
 -- Insert initial categories and priorities
 insert into categories values (1,'DEFAULT');
 insert into categories values (2,'WORK');
