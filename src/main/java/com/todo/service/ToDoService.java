@@ -230,20 +230,24 @@ public class ToDoService implements ToDoRepository {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            Priority selectedPriority = this.priorityService.getById(resultSet.getInt(6));
-            Category selectedCategory = this.categoryService.getById(resultSet.getInt(7));
+            if (resultSet.next()) {
+                Priority selectedPriority = this.priorityService.getById(resultSet.getInt(6));
+                Category selectedCategory = this.categoryService.getById(resultSet.getInt(7));
 
-            selectedToDo.setId(resultSet.getInt(1));
-            selectedToDo.setTitle(resultSet.getString(2));
-            selectedToDo.setDescription(resultSet.getString(3));
-            selectedToDo.setStartDate(resultSet.getDate(4));
-            selectedToDo.setEndDate(resultSet.getDate(5));
-            selectedToDo.setPriority(selectedPriority);
-            selectedToDo.setCategory(selectedCategory);
+                selectedToDo.setId(resultSet.getInt(1));
+                selectedToDo.setTitle(resultSet.getString(2));
+                selectedToDo.setDescription(resultSet.getString(3));
+                selectedToDo.setStartDate(resultSet.getDate(4));
+                selectedToDo.setEndDate(resultSet.getDate(5));
+                selectedToDo.setPriority(selectedPriority);
+                selectedToDo.setCategory(selectedCategory);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
+        if (selectedToDo.getTitle() == null)
+            return null;
         return selectedToDo;
     }
 }

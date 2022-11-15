@@ -14,7 +14,6 @@ import java.util.List;
 
 @Path("/items")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class ToDoController {
     private final ToDoService toDoService = new ToDoService();
 
@@ -34,7 +33,7 @@ public class ToDoController {
     public Response select(@PathParam("id") int id) {
         ToDo selectedItem = this.toDoService.getById(id);
 
-        if (selectedItem.getId() == null) {
+        if (selectedItem == null) {
             FaildResponse notFoundResponse = new NotFoundResponse();
             notFoundResponse.setMessage("Couldn't find todo item with id: " + id);
             return Response.status(404).entity(notFoundResponse).build();
@@ -79,7 +78,7 @@ public class ToDoController {
     }
 
     @DELETE
-    @Path("{title}")
+    @Path("/title/{title}")
     public Response deleteByTitle(@PathParam("title") String title) {
         boolean result = this.toDoService.deleteByTitle(title);
         if (!result) {
@@ -91,7 +90,7 @@ public class ToDoController {
     }
 
     @GET
-    @Path("{title}")
+    @Path("/title/{title}")
     public Response findByTitle(@PathParam("title") String title) {
         ToDo selectedItem = this.toDoService.findByTitle(title);
         if (selectedItem == null) {
