@@ -78,6 +78,18 @@ public class ToDoController {
         return Response.noContent().build();
     }
 
+    @DELETE
+    @Path("{title}")
+    public Response deleteByTitle(@PathParam("title") String title) {
+        boolean result = this.toDoService.deleteByTitle(title);
+        if (!result) {
+            FaildResponse faildResponse = new FaildToDeleteResponse();
+            faildResponse.setMessage("Couldn't delete todo item with title: " + title);
+            return Response.status(400).entity(faildResponse).build();
+        }
+        return Response.noContent().build();
+    }
+
     @GET
     @Path("{title}")
     public Response findByTitle(@PathParam("title") String title) {
