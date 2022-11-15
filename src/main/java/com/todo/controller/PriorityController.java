@@ -17,7 +17,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PriorityController {
 
-    PriorityService priorityService = new PriorityService();
+    private final PriorityService priorityService = new PriorityService();
 
     @GET
     public Response selectAll() {

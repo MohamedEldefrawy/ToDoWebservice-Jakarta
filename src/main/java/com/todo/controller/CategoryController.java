@@ -16,7 +16,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CategoryController {
-    CategoryService categoryService = new CategoryService();
+    private final CategoryService categoryService = new CategoryService();
 
     @GET
     public Response selectAll() {
