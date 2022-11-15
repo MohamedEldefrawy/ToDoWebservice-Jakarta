@@ -68,9 +68,8 @@ public class CategoryController {
 
     @PUT
     @Path("{id}")
-    public Response update(@PathParam("id") int categoryId, Category category) {
-        category.setId(categoryId);
-        boolean result = this.categoryService.update(category);
+    public Response update(@PathParam("id") int categoryId, Category updatedCategory) {
+        boolean result = this.categoryService.update(categoryId, updatedCategory);
         if (!result) {
             FaildResponse faildResponse = new FaildToUpdateResponse();
             faildResponse.setMessage("Couldn't update selected category with id: " + categoryId);

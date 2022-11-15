@@ -27,8 +27,25 @@ public class CategoryService implements CategoryRepository {
     }
 
     @Override
-    public boolean update(Category entity) {
-        return false;
+    public boolean update(int id, Category entity) {
+        String query = "update categories set name = ?  " + " where id = ?";
+        Category selectedCategory = getById(id);
+        if (selectedCategory == null) return false;
+
+        selectedCategory.setName(entity.getName());
+
+        int rowsAffected = 0;
+        try (Connection connection = DbContext.openDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, selectedCategory.getName());
+            preparedStatement.setInt(2, selectedCategory.getId());
+            preparedStatement.addBatch();
+            rowsAffected = preparedStatement.executeBatch().length;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return rowsAffected > 0;
     }
 
     @Override

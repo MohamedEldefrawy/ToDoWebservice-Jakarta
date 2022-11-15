@@ -203,7 +203,7 @@ public class ToDoService implements ToDoRepository {
             Category updatedCategory = this.categoryService.findCategoryByName(category);
             if (updatedCategory == null) return false;
             toDo.setCategory(updatedCategory);
-            return update(toDo);
+            return update(toDo.getId(), toDo);
         }
         return false;
     }
@@ -241,11 +241,12 @@ public class ToDoService implements ToDoRepository {
     }
 
     @Override
-    public boolean update(ToDo entity) {
+    public boolean update(int id, ToDo entity) {
         String query = "update items set title = ? , description = ? , start_date = ?,end_date = ?" + ",priority_id=?,category_id=?,isFavourite=? " + " where id = ?";
-        ToDo selectedToDo = findByTitle(entity.getTitle());
+        ToDo selectedToDo = getById(id);
         if (selectedToDo == null) return false;
 
+        selectedToDo.setTitle(entity.getTitle());
         selectedToDo.setDescription(entity.getDescription());
         selectedToDo.setFavourite(entity.isFavourite());
         selectedToDo.setCategory(entity.getCategory());

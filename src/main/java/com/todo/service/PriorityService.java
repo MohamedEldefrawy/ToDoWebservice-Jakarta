@@ -19,7 +19,7 @@ public class PriorityService implements PriorityRepository {
     }
 
     @Override
-    public boolean update(Priority entity) {
+    public boolean update(int id, Priority entity) {
         return false;
     }
 
