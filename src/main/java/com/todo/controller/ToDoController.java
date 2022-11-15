@@ -2,6 +2,7 @@ package com.todo.controller;
 
 import com.todo.entity.ToDo;
 import com.todo.entity.dto.FaildResponse;
+import com.todo.entity.dto.FaildToDeleteResponse;
 import com.todo.entity.dto.FaildToUpdateResponse;
 import com.todo.entity.dto.NotFoundResponse;
 import com.todo.service.ToDoService;
@@ -65,4 +66,27 @@ public class ToDoController {
         return Response.noContent().build();
     }
 
+    @DELETE
+    @Path("{id}")
+    public Response delete(@PathParam("id") int id) {
+        boolean result = this.toDoService.delete(id);
+        if (!result) {
+            FaildResponse faildResponse = new FaildToDeleteResponse();
+            faildResponse.setMessage("Couldn't delete todo item with id: " + id);
+            return Response.status(400).entity(faildResponse).build();
+        }
+        return Response.noContent().build();
+    }
+
+    @GET
+    @Path("{title}")
+    public Response findByTitle(@PathParam("title") String title) {
+        ToDo selectedItem = this.toDoService.findByTitle(title);
+        if (selectedItem == null) {
+            FaildResponse faildResponse = new FaildToDeleteResponse();
+            faildResponse.setMessage("Couldn't find todo item with title: " + title);
+            return Response.status(400).entity(faildResponse).build();
+        }
+        return Response.ok(selectedItem).build();
+    }
 }
