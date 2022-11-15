@@ -1,6 +1,6 @@
 package com.todo.entity.dto;
 
-public class NotFoundResponse implements FaildResponse {
+public class FaildToUpdateResponse implements FaildResponse {
     private String message;
 
     @Override

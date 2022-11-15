@@ -68,7 +68,7 @@ public class CategoryService implements CategoryRepository {
     @Override
     public Category findCategoryByName(String name) {
         List<Category> categories = get();
-        Optional<Category> categoryOptional = categories.stream().filter(category -> category.getName().equals(name)).findFirst();
+        Optional<Category> categoryOptional = categories.stream().filter(category -> category.getName().equals(name.toUpperCase())).findFirst();
         return categoryOptional.orElse(null);
     }
 }
