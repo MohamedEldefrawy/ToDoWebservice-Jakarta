@@ -4,10 +4,7 @@ import com.todo.data.DbContext;
 import com.todo.entity.Priority;
 import com.todo.repositroy.PriorityRepository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,17 +12,57 @@ import java.util.Optional;
 public class PriorityService implements PriorityRepository {
     @Override
     public boolean create(Priority entity) {
-        return false;
+        String query = "insert into priorities(name) values (?)";
+        int rowsAffected = 0;
+        try (Connection connection = DbContext.openDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, entity.getName());
+            preparedStatement.addBatch();
+            rowsAffected = preparedStatement.executeBatch().length;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return rowsAffected > 0;
     }
 
     @Override
     public boolean update(int id, Priority entity) {
-        return false;
+        String query = "update priorities set name = ?  " + " where id = ?";
+        Priority selectedPriority = getById(id);
+        if (selectedPriority == null) return false;
+
+        selectedPriority.setName(entity.getName());
+
+        int rowsAffected = 0;
+        try (Connection connection = DbContext.openDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, selectedPriority.getName());
+            preparedStatement.setInt(2, selectedPriority.getId());
+            preparedStatement.addBatch();
+            rowsAffected = preparedStatement.executeBatch().length;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return rowsAffected > 0;
     }
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        String query = "delete from priorities where id = ?";
+        int rowsAffected = 0;
+        try (Connection connection = DbContext.openDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.addBatch();
+            rowsAffected = preparedStatement.executeBatch().length;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return rowsAffected > 0;
     }
 
     @Override
