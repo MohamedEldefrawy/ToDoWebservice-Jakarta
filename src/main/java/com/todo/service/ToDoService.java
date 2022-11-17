@@ -34,8 +34,8 @@ public class ToDoService implements ToDoRepository {
     public List<ToDo> findByPriority(String priority) {
         List<ToDo> toDos = get();
         List<ToDo> result = new ArrayList<>();
-        Priority selectedPriority = this.priorityService.findPriorityByName(priority);
-        if (selectedPriority == null) return null;
+        Priority selectedPriority = this.priorityService.findPriorityByName(priority.toUpperCase());
+        if (selectedPriority == null) return new ArrayList<>();
 
         if (toDos != null && toDos.size() > 0) for (ToDo toDo : toDos) {
             if (toDo.getPriority().equals(selectedPriority)) result.add(toDo);

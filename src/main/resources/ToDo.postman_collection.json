@@ -204,6 +204,14 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Find by priority",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},

@@ -114,4 +114,16 @@ public class ToDoController {
         }
         return Response.ok(selectedItems).build();
     }
+
+    @GET
+    @Path("/priority/{priority}")
+    public Response findByPriority(@PathParam("priority") String priority) {
+        List<ToDo> selectedItems = this.toDoService.findByPriority(priority);
+        if (selectedItems.size() == 0) {
+            FaildResponse faildResponse = new FaildToDeleteResponse();
+            faildResponse.setMessage("Couldn't find todo item with priority: " + priority);
+            return Response.status(404).entity(faildResponse).build();
+        }
+        return Response.ok(selectedItems).build();
+    }
 }
