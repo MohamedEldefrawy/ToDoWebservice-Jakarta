@@ -3,7 +3,6 @@ package com.todo.repositroy;
 import com.todo.entity.ToDo;
 
 import java.util.List;
-
 public interface ToDoRepository extends Repository<ToDo> {
     boolean addItemToFavourite(String title);
 

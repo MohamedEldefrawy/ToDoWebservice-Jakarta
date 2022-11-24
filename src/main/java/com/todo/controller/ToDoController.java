@@ -6,16 +6,19 @@ import com.todo.entity.dto.response.FaildToDeleteResponse;
 import com.todo.entity.dto.response.FaildToUpdateResponse;
 import com.todo.entity.dto.response.NotFoundResponse;
 import com.todo.service.ToDoService;
+import com.todo.singleton.Singleton;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 @Path("/items")
 @Produces(MediaType.APPLICATION_JSON)
 public class ToDoController {
-    private final ToDoService toDoService = new ToDoService();
+    private final Singleton singleton = Singleton.getInstance();
+    private final ToDoService toDoService = singleton.getToDoService();
 
     @GET
     public Response selectAll() {
@@ -104,8 +107,7 @@ public class ToDoController {
     @GET
     @Path("/date")
     public Response findByDate(@QueryParam("mode") Integer mode, @QueryParam("date") String date) {
-        if (mode == null)
-            mode = 0;
+        if (mode == null) mode = 0;
         List<ToDo> selectedItems = this.toDoService.findByDate(mode, date);
         if (selectedItems.size() == 0) {
             FaildResponse faildResponse = new FaildToDeleteResponse();

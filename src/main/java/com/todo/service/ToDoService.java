@@ -7,17 +7,25 @@ import com.todo.entity.ToDo;
 import com.todo.exception.NoDateAssignedException;
 import com.todo.repositroy.ToDoRepository;
 import com.todo.utils.Helpers;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
 
+@Service
 public class ToDoService implements ToDoRepository {
 
     private static final int SEARCH_BY_START_DATE = 0;
-    private final CategoryService categoryService = new CategoryService();
-    private final PriorityService priorityService = new PriorityService();
+    private final CategoryService categoryService;
+    private final PriorityService priorityService;
+    private final DbContext dbContext;
 
+    public ToDoService(CategoryService categoryService, PriorityService priorityService, DbContext dbContext) {
+        this.categoryService = categoryService;
+        this.priorityService = priorityService;
+        this.dbContext = dbContext;
+    }
 
     @Override
     public ToDo findByTitle(String title) {
@@ -125,7 +133,7 @@ public class ToDoService implements ToDoRepository {
     public boolean create(ToDo entity) {
         String query = "insert into items(title,description,start_date,end_date,category_id,priority_id) " + "values (?,?,?,?,?,?)";
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, entity.getTitle());
             preparedStatement.setString(2, entity.getDescription());
@@ -157,7 +165,7 @@ public class ToDoService implements ToDoRepository {
         selectedToDo.setEndDate(entity.getEndDate());
 
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, selectedToDo.getTitle());
             preparedStatement.setString(2, selectedToDo.getDescription());
@@ -180,7 +188,7 @@ public class ToDoService implements ToDoRepository {
     public boolean delete(Integer id) {
         String query = "delete from items where id = ?";
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.addBatch();
@@ -196,7 +204,7 @@ public class ToDoService implements ToDoRepository {
     public List<ToDo> get() {
         String query = "select * from items";
         List<ToDo> result = new ArrayList<>();
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -226,7 +234,7 @@ public class ToDoService implements ToDoRepository {
     public ToDo getById(Integer id) {
         String query = "select * from items where id = ?";
         ToDo selectedToDo = new ToDo();
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

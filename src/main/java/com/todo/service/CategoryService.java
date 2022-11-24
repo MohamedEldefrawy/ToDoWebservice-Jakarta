@@ -3,18 +3,26 @@ package com.todo.service;
 import com.todo.data.DbContext;
 import com.todo.entity.Category;
 import com.todo.repositroy.CategoryRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CategoryService implements CategoryRepository {
+    private final DbContext dbContext;
+
+    public CategoryService(DbContext dbContext) {
+        this.dbContext = dbContext;
+    }
+
     @Override
     public boolean create(Category entity) {
         String query = "insert into categories(name) values (?)";
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, entity.getName());
             preparedStatement.addBatch();
@@ -35,7 +43,7 @@ public class CategoryService implements CategoryRepository {
         selectedCategory.setName(entity.getName());
 
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, selectedCategory.getName());
             preparedStatement.setInt(2, selectedCategory.getId());
@@ -52,7 +60,7 @@ public class CategoryService implements CategoryRepository {
     public boolean delete(Integer id) {
         String query = "delete from categories where id = ?";
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.addBatch();
@@ -69,7 +77,7 @@ public class CategoryService implements CategoryRepository {
     public List<Category> get() {
         String query = "select * from categories";
         List<Category> categories = new ArrayList<>();
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -90,7 +98,7 @@ public class CategoryService implements CategoryRepository {
     public Category getById(Integer id) {
         String query = "select * from categories where id = ";
         Category selectedCategory = new Category();
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query + id);
             while (resultSet.next()) {

@@ -6,6 +6,7 @@ import com.todo.entity.dto.response.FaildToDeleteResponse;
 import com.todo.entity.dto.response.FaildToUpdateResponse;
 import com.todo.entity.dto.response.NotFoundResponse;
 import com.todo.service.PriorityService;
+import com.todo.singleton.Singleton;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -16,8 +17,8 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PriorityController {
-
-    private final PriorityService priorityService = new PriorityService();
+    Singleton singleton = Singleton.getInstance();
+    private final PriorityService priorityService = singleton.getPriorityService();
 
     @GET
     public Response selectAll() {

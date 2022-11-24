@@ -1,21 +1,30 @@
 package com.todo.data;
 
+import com.todo.config.DataBaseConfiguration;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static com.todo.config.DataBaseConfiguration.*;
-
+@Component
 public class DbContext {
-    public static Connection openDbConnection() {
+    private final DataBaseConfiguration dataBaseConfiguration;
+
+    public DbContext(DataBaseConfiguration dataBaseConfiguration) {
+        this.dataBaseConfiguration = dataBaseConfiguration;
+    }
+
+
+    public Connection openDbConnection() {
         Connection con;
         try {
-            Class.forName(JDBC_DRIVER);
+            Class.forName(dataBaseConfiguration.JDBC_DRIVER);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         try {
-            con = DriverManager.getConnection(CONNECTION_STRING, USER_NAME, PASSWORD);
+            con = DriverManager.getConnection(dataBaseConfiguration.CONNECTION_STRING, dataBaseConfiguration.USER_NAME, dataBaseConfiguration.PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

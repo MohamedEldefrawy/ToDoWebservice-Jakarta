@@ -3,18 +3,26 @@ package com.todo.service;
 import com.todo.data.DbContext;
 import com.todo.entity.Priority;
 import com.todo.repositroy.PriorityRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PriorityService implements PriorityRepository {
+    private final DbContext dbContext;
+
+    public PriorityService(DbContext dbContext) {
+        this.dbContext = dbContext;
+    }
+
     @Override
     public boolean create(Priority entity) {
         String query = "insert into priorities(name) values (?)";
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, entity.getName());
             preparedStatement.addBatch();
@@ -35,7 +43,7 @@ public class PriorityService implements PriorityRepository {
         selectedPriority.setName(entity.getName());
 
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, selectedPriority.getName());
             preparedStatement.setInt(2, selectedPriority.getId());
@@ -52,7 +60,7 @@ public class PriorityService implements PriorityRepository {
     public boolean delete(Integer id) {
         String query = "delete from priorities where id = ?";
         int rowsAffected = 0;
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.addBatch();
@@ -69,7 +77,7 @@ public class PriorityService implements PriorityRepository {
     public List<Priority> get() {
         String query = "select * from priorities";
         List<Priority> priorities = new ArrayList<>();
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -89,7 +97,7 @@ public class PriorityService implements PriorityRepository {
     public Priority getById(Integer id) {
         String query = "select * from priorities where id = ";
         Priority selectedPriority = new Priority();
-        try (Connection connection = DbContext.openDbConnection()) {
+        try (Connection connection = dbContext.openDbConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query + id);
             while (resultSet.next()) {
